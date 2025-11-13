@@ -29,5 +29,12 @@ public class DanielmasMod1 implements ModInitializer {
 							.requires(source -> source.hasPermissionLevel(1))
 							.executes(SwapPlayers::swapPlayers)));
 		});
+
+		//stop swap command
+		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
+			dispatcher.register(CommandManager.literal("stop_swapping")
+					.requires(source -> source.hasPermissionLevel(1))
+					.executes(SwapPlayers::stopSwap));
+		});
 	}
 }
