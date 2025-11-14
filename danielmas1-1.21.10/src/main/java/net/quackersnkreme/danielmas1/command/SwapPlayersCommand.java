@@ -1,7 +1,6 @@
 package net.quackersnkreme.danielmas1.command;
 
 import com.mojang.brigadier.CommandDispatcher;
-
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
@@ -40,6 +39,7 @@ public class SwapPlayersCommand {
                                             SwapManager.setInterval(ctx.getSource(), IntegerArgumentType.getInteger(ctx, "seconds"));
                                             return 1;
                                         })))
+                        //this .executes is called when /swapPlayers is run without any subcommands, which is used here as a help info dump
                         .executes(ctx -> {
                             ctx.getSource().sendFeedback(() -> literal("This is the swap command"), false);
                             ctx.getSource().sendFeedback(() -> literal("type /swapPlayers start to start swapping"), false);
