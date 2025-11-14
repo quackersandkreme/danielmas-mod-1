@@ -1,4 +1,4 @@
-package net.quackersnkreme.danielmas1;
+package net.quackersnkreme.danielmas1.useless;
 
 import net.fabricmc.api.ClientModInitializer;
 

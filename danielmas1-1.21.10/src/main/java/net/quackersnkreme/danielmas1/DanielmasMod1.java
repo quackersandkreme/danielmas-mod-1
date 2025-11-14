@@ -1,11 +1,12 @@
 package net.quackersnkreme.danielmas1;
 
-import com.mojang.brigadier.arguments.IntegerArgumentType;
 import net.fabricmc.api.ModInitializer;
-
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.quackersnkreme.danielmas1.command.SwapPlayersCommand;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.text.Text;
+import net.quackersnkreme.danielmas1.core.SwapManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,6 +16,8 @@ public class DanielmasMod1 implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		//a lot of this mod is based on ZellVex's (github username) SwapInventory mod.
+
 		//test_command
 		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment)
 				-> {dispatcher.register(CommandManager.literal("test_command").executes(context
@@ -22,19 +25,13 @@ public class DanielmasMod1 implements ModInitializer {
 				-> Text.literal("Zakk is a pixel pooper."), false);
 					return 1;}));});
 
-		//start swap command
-		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
-			dispatcher.register(CommandManager.literal("swap_players")
-					.then(CommandManager.argument("time between swaps (secs)", IntegerArgumentType.integer())
-							.requires(source -> source.hasPermissionLevel(1))
-							.executes(SwapPlayers::swapPlayers)));
+		//registering the swap players command
+		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->{
+			SwapPlayersCommand.register(dispatcher);
 		});
 
-		//stop swap command
-		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
-			dispatcher.register(CommandManager.literal("stop_swapping")
-					.requires(source -> source.hasPermissionLevel(1))
-					.executes(SwapPlayers::stopSwap));
-		});
+		//used for the timer due to minecraft being single threaded, it triggers the onServerTick method at the end of every server tick or 1/20th of a second
+		ServerTickEvents.END_SERVER_TICK.register(SwapManager::onServerTick);
+		LOGGER.info("Swap Players mod initialised!");
 	}
 }

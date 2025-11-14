@@ -19,10 +19,10 @@
 			"net.quackersnkreme.danielmas1.DanielmasMod1"
 		],
 		"fabric-datagen": [
-			"net.quackersnkreme.danielmas1.DanielmasMod1DataGenerator"
+			"net.quackersnkreme.danielmas1.useless.DanielmasMod1DataGenerator"
 		],
 		"client": [
-			"net.quackersnkreme.danielmas1.DanielmasClient"
+			"net.quackersnkreme.danielmas1.useless.DanielmasClient"
 		]
 	},
 	"mixins": [
