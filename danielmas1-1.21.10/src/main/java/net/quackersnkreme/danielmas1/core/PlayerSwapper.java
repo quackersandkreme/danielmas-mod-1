@@ -2,6 +2,7 @@ package net.quackersnkreme.danielmas1.core;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,23 +22,24 @@ public class PlayerSwapper {
 
         //don't do anything if there is one player
 
-        if (server.getCurrentPlayerCount() < 2) return;
+        //if (server.getCurrentPlayerCount() < 2) return;
 
         //shuffle the list of players
 
-        Collections.shuffle(players);
+        //Collections.shuffle(players);
 
         //get all the player locations
-
-        List<Vec3d> playerLocations = getLocations(players);
+        players.getFirst().sendMessage(Text.of("" + players.size()));
+       //List<Vec3d> playerLocations = getLocations(players);
 //        for (int i = 0; i < players.size(); i++) {
 //            int finalI = i;
 //            server.getCommandSource().sendFeedback(() -> literal("" + playerLocations.get(finalI).x + playerLocations.get(finalI).y + playerLocations.get(finalI).z), false);
 //        }
 
+
         //moves the players to the new location
 
-        applySwap(playerLocations, players);
+        //applySwap(playerLocations, players);
     }
 
     //method to get locations
