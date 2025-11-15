@@ -18,28 +18,25 @@ public class PlayerSwapper {
 
         //create list of players in world
 
+        List<ServerPlayerEntity> randPlayers = new ArrayList<>(server.getPlayerManager().getPlayerList());
         List<ServerPlayerEntity> players = new ArrayList<>(server.getPlayerManager().getPlayerList());
 
         //don't do anything if there is one player
 
-        //if (server.getCurrentPlayerCount() < 2) return;
+        if (server.getCurrentPlayerCount() < 2) return;
 
         //shuffle the list of players
 
-        //Collections.shuffle(players);
+        Collections.shuffle(randPlayers);
 
         //get all the player locations
         players.getFirst().sendMessage(Text.of("" + players.size()));
-       //List<Vec3d> playerLocations = getLocations(players);
-//        for (int i = 0; i < players.size(); i++) {
-//            int finalI = i;
-//            server.getCommandSource().sendFeedback(() -> literal("" + playerLocations.get(finalI).x + playerLocations.get(finalI).y + playerLocations.get(finalI).z), false);
-//        }
 
+        List<Vec3d> playerLocations = getLocations(randPlayers);
 
         //moves the players to the new location
 
-        //applySwap(playerLocations, players);
+        applySwap(playerLocations, players);
     }
 
     //method to get locations
@@ -75,13 +72,10 @@ public class PlayerSwapper {
 
     private static void applySwap(List<Vec3d> locations, List<ServerPlayerEntity> players) {
 
-        /* because arraylist only has .size(), nextIndex has to be like this
-        *  while i is smaller than players.size(), get player[i] and set their location to locations[nextIndex]
-        */
+        //teleports players to the list of locations, DO NOT USE setPos this is way easier, you don't have to override anything
 
         for (int i = 0; i < players.size(); i++) {
-            int nextIndex = (i + 1) % players.size();
-            players.get(i).setPos(locations.get(nextIndex).x, locations.get(nextIndex).y, locations.get(nextIndex).z);
+            players.get(i).teleport(locations.get(i).x, locations.get(i).y, locations.get(i).z, false);
         }
     }
 
